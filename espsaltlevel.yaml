@@ -1,0 +1,24 @@
+substitutions:
+  devicename: espsaltlevel
+
+esphome:
+  name: $devicename
+
+esp8266:
+  board: esp_wroom_02
+
+logger:
+  level: DEBUG
+
+<<: !include inc/wifi.yaml
+<<: !include inc/auth.yaml
+
+i2c:
+  sda: GPIO4
+  scl: GPIO5
+
+sensor:
+  - platform: vl53l0x
+    name: Hauteur sel adoucisseur
+    update_interval: 1s
+    device_class: distance
