@@ -8,7 +8,7 @@ esp8266:
   board: esp_wroom_02
 
 logger:
-  level: DEBUG # TODO: switch to INFO
+  level: INFO
 
 <<: !include inc/wifi.yaml
 <<: !include inc/auth.yaml
