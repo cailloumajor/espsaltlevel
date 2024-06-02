@@ -38,6 +38,12 @@ binary_sensor:
         - deep_sleep.allow: deep_sleep_1
 
 sensor:
+  - platform: adc
+    name: Tension batterie ${devicename}
+    pin: A0
+    update_interval: 2s
+    filters:
+      - multiply: 3.3
   - platform: vl53l0x
     name: Hauteur sel adoucisseur
     update_interval: 2s
