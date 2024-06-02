@@ -8,17 +8,37 @@ esp8266:
   board: esp_wroom_02
 
 logger:
-  level: DEBUG
+  level: DEBUG # TODO: switch to INFO
 
 <<: !include inc/wifi.yaml
 <<: !include inc/auth.yaml
+
+deep_sleep:
+  id: deep_sleep_1
+  run_duration: 10s
+  sleep_duration: 15min
 
 i2c:
   sda: GPIO4
   scl: GPIO5
 
+binary_sensor:
+  - platform: homeassistant
+    id: deep_sleep_inhibit
+    name: Inhibit deep sleep from Home Assistant
+    entity_id: input_boolean.inhibition_sommeil_espsaltlevel
+    publish_initial_state: true
+    on_press:
+      then:
+        - logger.log: Deep sleep inhibited from Home Assistant
+        - deep_sleep.prevent: deep_sleep_1
+    on_release:
+      then:
+        - logger.log: Deep sleep enabled from Home Assistant
+        - deep_sleep.allow: deep_sleep_1
+
 sensor:
   - platform: vl53l0x
     name: Hauteur sel adoucisseur
-    update_interval: 1s
+    update_interval: 2s
     device_class: distance
